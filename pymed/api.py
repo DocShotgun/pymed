@@ -61,7 +61,7 @@ class PubMed(object):
         """
 
         # Retrieve the article IDs for the query
-        article_ids = self._getArticleIds(query=query, max_results=max_results)
+        article_ids = self._getArticleIds(query=query, max_results=max_results, sort=sort)
 
         # Get the articles themselves
         articles = list(
@@ -181,12 +181,13 @@ class PubMed(object):
         for book in root.iter("PubmedBookArticle"):
             yield PubMedBookArticle(xml_element=book)
 
-    def _getArticleIds(self: object, query: str, max_results: int) -> list:
+    def _getArticleIds(self: object, query: str, max_results: int, sort: str) -> list:
         """ Helper method to retrieve the article IDs for a query.
 
             Parameters:
                 - query         Str, query to be executed against the PubMed database.
                 - max_results   Int, the maximum number of results to retrieve.
+                - sort            Str, order in which to sort results (default: "relevance").
 
             Returns:
                 - article_ids   List, article IDs as a list.
@@ -201,6 +202,7 @@ class PubMed(object):
         # Add specific query parameters
         parameters["term"] = query
         parameters["retmax"] = 50000
+        parameters["sort"] = sort
 
         # Calculate a cut off point based on the max_results parameter
         if max_results < parameters["retmax"]:
