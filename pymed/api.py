@@ -46,12 +46,14 @@ class PubMed(object):
         # Define the standard / default query parameters
         self.parameters = {"tool": tool, "email": email, "db": "pubmed"}
 
-    def query(self: object, query: str, max_results: int = 100):
+    def query(self: object, query: str, max_results: int = 100, sort: str = "relevance"):
         """ Method that executes a query agains the GraphQL schema, automatically
             inserting the PubMed data loader.
 
             Parameters:
                 - query     String, the GraphQL query to execute against the schema.
+                - max_results    Maximum number of results to return.
+                - sort    Order in which to sort results (default: "relevance").
 
             Returns:
                 - result    ExecutionResult, GraphQL object that contains the result
